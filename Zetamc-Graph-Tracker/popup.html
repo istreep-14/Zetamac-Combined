@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Zetamac Graph Tracker</title>
+    <style>
+        body {
+            width: 500px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Zetamac Graph Tracker</h2>
+
+    <div>
+        <a href="graphs.html" target="_blank">View Detailed Graphs</a>
+    </div>
+
+
+
+
+    <div class="table-container">
+        <table id="scoresTable">
+            <thead>
+                <tr>
+                    <th>Score</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Scores will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>

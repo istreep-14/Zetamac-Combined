@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zetamac Graph Tracker - Graph Analysis</title>
+  <style>
+    body {
+      width: 800px;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Zetamac Graph Tracker - Graph Analysis</h2>
+  
+  <!-- Canvas for the score trends -->
+  <canvas id="scoreChart" width="800" height="250"></canvas>
+  
+  <!-- Canvas for mean & volatility trends -->
+  <canvas id="trendChart" width="800" height="250"></canvas>
+  
+  <!-- Canvas for the bell curve distribution -->
+  <canvas id="bellCurveChart" width="800" height="250"></canvas>
+
+  <!-- Load Chart.js from CDN -->
+  <script src="chart.js"></script>
+  <script src="graphs.js"></script>
+</body>
+
+</html>

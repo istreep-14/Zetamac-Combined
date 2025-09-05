@@ -1,0 +1,22 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+  "name": "Zetamac Graph Tracker",
+  "version": "1.1",
+  "description": "Automatically saves and displays your Zetamac math game scores with trend graphs",
+  "permissions": ["storage"],
+  "host_permissions": ["https://arithmetic.zetamac.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://arithmetic.zetamac.com/game?key=*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
