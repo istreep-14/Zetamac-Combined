@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Zetamac Tracker Next",
+  "version": "0.1.0",
+  "description": "Accurate per-problem latency tracker with mode/duration analytics and Sheets sync.",
+  "action": {
+    "default_title": "Zetamac Tracker",
+    "default_popup": "src/ui/popup.html"
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://arithmetic.zetamac.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://arithmetic.zetamac.com/*"
+      ],
+      "js": [
+        "src/content/content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}
+
