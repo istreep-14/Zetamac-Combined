@@ -13,10 +13,13 @@
   },
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "identity",
+    "alarms"
   ],
   "host_permissions": [
-    "https://arithmetic.zetamac.com/*"
+    "https://arithmetic.zetamac.com/*",
+    "https://www.googleapis.com/*"
   ],
   "content_scripts": [
     {
@@ -26,8 +29,15 @@
       "js": [
         "src/content/content.js"
       ],
-      "run_at": "document_end"
+      "run_at": "document_end",
+      "all_frames": true
     }
-  ]
+  ],
+  "oauth2": {
+    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
+  }
 }
 

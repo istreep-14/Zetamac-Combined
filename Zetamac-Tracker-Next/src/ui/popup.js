@@ -39,5 +39,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 	document.getElementById('openZetamac').addEventListener('click', () => {
 		chrome.tabs.create({ url: 'https://arithmetic.zetamac.com' });
 	});
+
+	const syncBtn = document.getElementById('syncNow');
+	if (syncBtn) {
+		syncBtn.addEventListener('click', () => {
+			syncBtn.disabled = true;
+			syncBtn.textContent = 'Syncing…';
+			chrome.runtime.sendMessage({ type: 'MANUAL_SYNC' }, (res) => {
+				syncBtn.disabled = false;
+				syncBtn.textContent = 'Sync';
+				if (res && res.ok) {
+					const now = new Date().toISOString();
+					document.getElementById('syncLine').textContent = `Last Sync: ${now}`;
+				} else {
+					alert('Sync failed. Try again after authorizing in the browser.');
+				}
+			});
+		});
+	}
 });
 
