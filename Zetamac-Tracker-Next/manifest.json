@@ -19,7 +19,8 @@
   ],
   "host_permissions": [
     "https://arithmetic.zetamac.com/*",
-    "https://www.googleapis.com/*"
+    "https://www.googleapis.com/*",
+    "https://sheets.googleapis.com/*"
   ],
   "content_scripts": [
     {
