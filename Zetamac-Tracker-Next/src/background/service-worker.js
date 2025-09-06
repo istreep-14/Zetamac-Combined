@@ -16,6 +16,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		processQueue(true).then((ok) => sendResponse({ ok })).catch(err => sendResponse({ ok: false, error: String(err) }));
 		return true; // async response
 	}
+	if (message && message.type === 'CHECK_AUTH') {
+		getAuthToken(false).then((token) => sendResponse({ ok: !!token })).catch(() => sendResponse({ ok: false }));
+		return true;
+	}
+	if (message && message.type === 'AUTHORIZE') {
+		getAuthToken(true).then((token) => sendResponse({ ok: !!token })).catch(() => sendResponse({ ok: false }));
+		return true;
+	}
 });
 
 async function handleSessionComplete(session) {

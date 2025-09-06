@@ -22,6 +22,46 @@ function computeQuickStats(data) {
 	};
 }
 
+function getManifestClientId() {
+	try {
+		const mf = chrome.runtime.getManifest();
+		return (mf && mf.oauth2 && mf.oauth2.client_id) || '';
+	} catch (e) {
+		return '';
+	}
+}
+
+function updateAuthUi(state) {
+	const warnEl = document.getElementById('authWarning');
+	const authBtn = document.getElementById('authorize');
+	const syncBtn = document.getElementById('syncNow');
+	const clientConfigured = !!(state && state.clientConfigured);
+	const authorized = !!(state && state.authorized);
+
+	if (!clientConfigured) {
+ 		if (warnEl) {
+ 			warnEl.textContent = 'Google OAuth client ID not configured. Update manifest and reload the extension.';
+ 			warnEl.style.display = 'block';
+ 		}
+ 		if (authBtn) authBtn.style.display = 'none';
+ 		if (syncBtn) syncBtn.disabled = true;
+ 		return;
+ 	}
+
+ 	if (!authorized) {
+ 		if (warnEl) {
+ 			warnEl.textContent = 'Authorization required to sync to Google Sheets.';
+ 			warnEl.style.display = 'block';
+ 		}
+ 		if (authBtn) authBtn.style.display = 'inline-block';
+ 		if (syncBtn) syncBtn.disabled = false;
+ 	} else {
+ 		if (warnEl) warnEl.style.display = 'none';
+ 		if (authBtn) authBtn.style.display = 'none';
+ 		if (syncBtn) syncBtn.disabled = false;
+ 	}
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
 	const data = await getAggregates();
 	const qs = computeQuickStats(data);
@@ -54,6 +94,33 @@ document.addEventListener('DOMContentLoaded', async () => {
 				} else {
 					alert('Sync failed. Try again after authorizing in the browser.');
 				}
+			});
+		});
+	}
+
+	// Auth UI handling
+	const authBtn = document.getElementById('authorize');
+	const clientId = getManifestClientId();
+	const clientConfigured = !!clientId && !clientId.includes('YOUR_CLIENT_ID');
+
+	function refreshAuthUi() {
+		chrome.runtime.sendMessage({ type: 'CHECK_AUTH' }, (res) => {
+			const authorized = !!(res && res.ok);
+			updateAuthUi({ authorized, clientConfigured });
+		});
+	}
+
+	refreshAuthUi();
+
+	if (authBtn) {
+		authBtn.addEventListener('click', () => {
+			authBtn.disabled = true;
+			authBtn.textContent = 'Authorizing…';
+			chrome.runtime.sendMessage({ type: 'AUTHORIZE' }, (res) => {
+				authBtn.disabled = false;
+				authBtn.textContent = 'Authorize';
+				const authorized = !!(res && res.ok);
+				updateAuthUi({ authorized, clientConfigured });
 			});
 		});
 	}
